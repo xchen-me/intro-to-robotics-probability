@@ -45,6 +45,29 @@ def camera(ax, x, y, s=1.0, color=PURPLE):
     return x + 1.0 * s, y + 0.35 * s  # lens-ish exit point for arrows
 
 
+def hand(ax, cx, cy, s=1.0, color="#C98A4B", covering=False):
+    """Schematic hand - a palm blob with four short fingers - entering from
+    below. When covering=True it is drawn larger, centred, and on top."""
+    if covering:
+        ax.add_patch(Ellipse((cx, cy), 1.5 * s, 1.1 * s, facecolor=color,
+                              edgecolor="#8a5f33", lw=1.5, zorder=6))
+        for dx in (-0.45, -0.15, 0.15, 0.45):
+            ax.add_patch(FancyBboxPatch((cx + dx * s - 0.09 * s, cy + 0.35 * s),
+                                        0.18 * s, 0.55 * s,
+                                        boxstyle="round,pad=0.01,rounding_size=0.08",
+                                        facecolor=color, edgecolor="#8a5f33",
+                                        lw=1.2, zorder=6))
+    else:
+        ax.add_patch(Ellipse((cx, cy - 1.05 * s), 0.9 * s, 0.6 * s, facecolor=color,
+                              edgecolor="#8a5f33", lw=1.5, zorder=2))
+        for dx in (-0.25, -0.05, 0.15):
+            ax.add_patch(FancyBboxPatch((cx + dx * s, cy - 1.3 * s),
+                                        0.16 * s, 0.4 * s,
+                                        boxstyle="round,pad=0.01,rounding_size=0.07",
+                                        facecolor=color, edgecolor="#8a5f33",
+                                        lw=1.1, zorder=2))
+
+
 def save(fig, name):
     fig.savefig(OUT / f"{name}.png", dpi=200, bbox_inches="tight", pad_inches=0.08,
                 transparent=True)
@@ -123,6 +146,51 @@ def demo3():
     save(fig, "demo3_setup")
 
 
+def demo3_scene():
+    """The physical scene: a camera watching a held object, then a hand
+    covering it - as opposed to demo3_setup's abstract predict/correct loop."""
+    fig, ax = new_fig(13.0, 5.4)
+    camera(ax, 0.4, 2.2, s=1.6, color=PURPLE)
+
+    for bx, title in ((4.1, "tracking"), (9.1, "hand covers it")):
+        box = FancyBboxPatch((bx, 0.5), 3.6, 4.2,
+                              boxstyle="round,pad=0.04,rounding_size=0.12",
+                              linewidth=1.6, edgecolor=GREY, facecolor="white",
+                              linestyle=(0, (5, 3)), zorder=1)
+        ax.add_patch(box)
+        ax.text(bx + 1.8, 4.95, title, color=GREY, fontsize=16, ha="center")
+
+    # Left box: object visible, being tracked.
+    TANGERINE = "#E8622A"
+    ox, oy = 5.9, 2.9
+    hand(ax, ox, oy, s=1.0, color="#C98A4B", covering=False)
+    ax.add_patch(Circle((ox, oy), 0.62, facecolor=TANGERINE, edgecolor="#8a3f1a",
+                        lw=1.8, zorder=3))
+    ax.plot(ox, oy, marker="o", ms=8, color=TEAL, zorder=5)
+    ax.add_patch(Ellipse((ox, oy), 1.1, 0.75, edgecolor=PURPLE, facecolor="none",
+                         lw=2.2, zorder=5))
+    ax.plot(ox, oy, marker="o", ms=4, color=PURPLE, zorder=6)
+    ax.text(ox, 1.15, "teal = detection\npurple = estimate", color=GREY,
+            fontsize=10.5, ha="center")
+
+    # Arrow between the two boxes.
+    ax.annotate("", xy=(9.0, 2.9), xytext=(7.8, 2.9),
+                arrowprops=dict(arrowstyle="->", color=GREY, lw=2.2))
+
+    # Right box: object hidden, ellipse inflated.
+    ox2, oy2 = 10.9, 2.9
+    ax.add_patch(Circle((ox2, oy2), 0.62, facecolor=TANGERINE, alpha=0.35,
+                        edgecolor="none", zorder=2))
+    ax.add_patch(Ellipse((ox2, oy2), 2.3, 1.7, edgecolor=PURPLE, facecolor=PURPLE,
+                         alpha=0.12, lw=2.4, linestyle=(0, (4, 2)), zorder=4))
+    ax.plot(ox2, oy2, marker="o", ms=4, color=PURPLE, zorder=6)
+    hand(ax, ox2, oy2, s=1.15, color="#C98A4B", covering=True)
+    ax.text(ox2, 1.15, "no detection -\nellipse grows", color=GREY,
+            fontsize=10.5, ha="center")
+
+    save(fig, "demo3_scene")
+
+
 # ---------------------------------------------------------------- demo 4 ---
 def demo4():
     fig, ax = new_fig(13.0, 4.7)
@@ -168,5 +236,6 @@ if __name__ == "__main__":
     demo1()
     demo2()
     demo3()
+    demo3_scene()
     demo4()
     repo_qr()
