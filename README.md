@@ -147,9 +147,14 @@ figure in `out/` instead.
 
 `make_illustrations.py` draws the small conceptual diagrams in `assets/`
 (camera + wall, independent-noise-vs-fixed-offset, the predict/correct loop,
-per-pixel Gaussians) with matplotlib. You don't need to run it to use the
-demos — it's here for anyone extending this material.
+per-pixel Gaussians, and a QR code linking back to this repo) with
+matplotlib. You don't need to run it to use the demos — it's here for
+anyone extending this material.
 
 ```bash
 python3 make_illustrations.py
 ```
+
+The QR code needs one extra package not in `requirements.txt`
+(`pip install "qrcode[pil]"`); if it's missing, the script just skips that
+one image and prints a note instead of failing.

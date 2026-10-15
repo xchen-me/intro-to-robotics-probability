@@ -18,6 +18,7 @@ from matplotlib.patches import Circle, Ellipse, FancyArrowPatch, FancyBboxPatch,
 PURPLE, GOLD, TEAL, GREY = "#4B2E83", "#B7A57A", "#2E7D9A", "#5F5F6E"
 OUT = Path(__file__).resolve().parent / "assets"
 OUT.mkdir(exist_ok=True)
+REPO_URL = "https://github.com/xchen-me/intro-to-robotics-probability"
 
 
 def new_fig(w, h):
@@ -141,8 +142,31 @@ def demo4():
     save(fig, "demo4_setup")
 
 
+# ----------------------------------------------------------------- repo ---
+def repo_qr():
+    """QR code linking to the standalone student repo. Optional - only needs
+    the 'qrcode' package, which nothing else here depends on."""
+    try:
+        import qrcode
+    except ImportError:
+        print("skipped assets/repo_qr.png (pip install qrcode[pil] to generate it)")
+        return
+    img = qrcode.make(REPO_URL, border=2,
+                       error_correction=qrcode.constants.ERROR_CORRECT_M)
+    img = img.convert("RGB")
+    pixels = img.load()
+    purple = tuple(int(PURPLE[i:i + 2], 16) for i in (1, 3, 5))
+    for y in range(img.height):
+        for x in range(img.width):
+            if pixels[x, y] == (0, 0, 0):
+                pixels[x, y] = purple
+    img.save(OUT / "repo_qr.png")
+    print("assets/repo_qr.png")
+
+
 if __name__ == "__main__":
     demo1()
     demo2()
     demo3()
     demo4()
+    repo_qr()
