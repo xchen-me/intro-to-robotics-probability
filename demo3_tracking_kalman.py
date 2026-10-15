@@ -5,6 +5,11 @@ WHAT TO SET UP
     sticky note - and move it around in front of the camera. Default threshold
     is tuned for orange/red; use --color green or --color blue otherwise.
 
+    --color red sits in the same low-hue band as skin under warm indoor
+    light, so it can lock onto a nose, cheek or lip instead of your object -
+    keep your face out of frame, hold the object further away, or switch to
+    --color orange / green / blue if that happens.
+
     Then, mid-demo, COVER THE OBJECT with your hand for a second or two.
 
 WHAT YOU SEE
@@ -49,7 +54,10 @@ K95 = 2.4477                       # sqrt(chi2.ppf(0.95, df=2)) - 2D, not 1D
 
 HSV_RANGES = {
     "orange": [((5, 120, 120), (22, 255, 255))],
-    "red":    [((0, 120, 110), (8, 255, 255)), ((170, 120, 110), (179, 255, 255))],
+    # Skin - especially the nose, cheeks and lips under warm indoor light - sits
+    # in this same low-hue band, so "red" needs a much higher saturation floor
+    # than the other colours to tell a saturated red object from a face.
+    "red":    [((0, 160, 120), (8, 255, 255)), ((170, 160, 120), (179, 255, 255))],
     "green":  [((40, 80, 70), (85, 255, 255))],
     "blue":   [((95, 110, 70), (125, 255, 255))],
 }

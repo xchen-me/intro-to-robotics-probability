@@ -111,6 +111,14 @@ saturated object. A matte orange item on a plain background works best. If
 you want to tune it yourself, the `HSV_RANGES` dictionary near the top of
 `demo3_tracking_kalman.py` is two numbers per color to edit.
 
+**Demo 3 keeps locking onto my face with `--color red`.** Skin — especially
+the nose, cheeks and lips under warm indoor light — sits in the same
+low-hue band as "red," so this is a real limitation of plain HSV
+thresholding, not a bug. `red`'s saturation/value floor is already set
+higher than the other colors to reduce it, but if it still happens: keep
+your face out of frame, hold the object further away, or just use
+`--color orange` / `green` / `blue` instead.
+
 **Demo 3's ellipse looks permanently huge, or permanently tiny.**
 `--meas-sd` tells the filter how noisy your detector is; `--accel-sd` tells
 it how fast the object can change velocity. Raise `--accel-sd` if the
