@@ -61,6 +61,10 @@ python3 demo4_background_gaussian.py --source 0 --train 120
 `--source 0` is your default webcam. If that opens the wrong camera (common
 on a laptop with both a built-in and an external one), try `--source 1`.
 
+Prefer not to type four commands? `make` runs all four on the synthetic
+source and refreshes every figure in `out/`; `make SOURCE=0` does the same
+against your camera.
+
 What to actually do in front of each camera:
 
 1. **Demo 1** — point the camera at a wall or anything that does not move.
@@ -147,9 +151,9 @@ figure in `out/` instead.
 
 `make_illustrations.py` draws the small conceptual diagrams in `assets/`
 (camera + wall, independent-noise-vs-fixed-offset, the predict/correct loop,
-per-pixel Gaussians, and a QR code linking back to this repo) with
-matplotlib. You don't need to run it to use the demos — it's here for
-anyone extending this material.
+a camera tracking a moving object, per-pixel Gaussians, and a QR code
+linking back to this repo) with matplotlib. You don't need to run it to use
+the demos — it's here for anyone extending this material.
 
 ```bash
 python3 make_illustrations.py
@@ -158,3 +162,13 @@ python3 make_illustrations.py
 The QR code needs one extra package not in `requirements.txt`
 (`pip install "qrcode[pil]"`); if it's missing, the script just skips that
 one image and prints a note instead of failing.
+
+## Also in this repo: Lecture 1 companion code
+
+[`l1-lecture-code/`](l1-lecture-code) has the standalone scripts behind
+*Foundations of Probability* — summing uniform random variables to watch
+the Central Limit Theorem kick in (`clt_uniform.py`, plus a MATLAB
+equivalent), the 30 cm wall-sensor demo with an adjustable noise level
+(`range_measurement_demo.py --sigma 0.02`), and the CLT on a bimodal
+mixture (`summed_disturbances_demo.py`). See that folder's own `README.txt`
+for setup and usage.
