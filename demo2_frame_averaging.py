@@ -27,6 +27,7 @@ OBSERVATIONS
     after averaging. You cannot average your way out of a systematic error.
 
 RUN
+    python demo2_frame_averaging.py --list-cameras
     python demo2_frame_averaging.py --source 0 --frames 256
     python demo2_frame_averaging.py --source demo
 """
@@ -40,6 +41,8 @@ import matplotlib
 if "--headless" in sys.argv:
     matplotlib.use("Agg")           # no display to pop a window on
 import matplotlib.pyplot as plt
+
+from camera_utils import print_camera_list
 
 # ---------------------------------------------------------------- palette --
 PURPLE, GOLD, TEAL, GREY = "#4B2E83", "#B7A57A", "#2E7D9A", "#5F5F6E"
@@ -55,7 +58,8 @@ def frame_source(src, n_frames, size=(640, 480), seed=7):
     if src != "demo":
         cap = cv2.VideoCapture(int(src) if str(src).isdigit() else src)
         if not cap.isOpened():
-            raise SystemExit(f"could not open source {src!r}. Try --source demo")
+            raise SystemExit(f"could not open source {src!r}. Run --list-cameras to see "
+                              "which indices open a camera, or try --source demo")
         try:
             for _ in range(15):     # let auto-exposure/white-balance settle before
                 cap.read()          # we start recording - the first live frames off
@@ -98,11 +102,19 @@ def show(window, image, headless):
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--source", default="demo")
+    ap.add_argument("--list-cameras", action="store_true",
+                     help="print which --source index opens which camera, then exit")
+    ap.add_argument("--max-index", type=int, default=6,
+                     help="highest camera index to probe for --list-cameras")
     ap.add_argument("--frames", type=int, default=256)
     ap.add_argument("--patch", type=int, default=120, help="side of the measurement patch")
     ap.add_argument("--save", default="out/demo2_frame_averaging.png")
     ap.add_argument("--headless", action="store_true")
     args = ap.parse_args()
+
+    if args.list_cameras:
+        print_camera_list(args.max_index)
+        return
 
     stack = []
     for frame in frame_source(args.source, args.frames):

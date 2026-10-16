@@ -21,6 +21,7 @@ OBSERVATIONS
     distribution, and the width of that distribution is a specification.
 
 RUN
+    python demo1_pixel_noise.py --list-cameras      # which --source is which camera?
     python demo1_pixel_noise.py --source 0          # your webcam
     python demo1_pixel_noise.py --source demo       # no camera needed
     python demo1_pixel_noise.py --source 0 --pixel 320 240 --frames 500
@@ -36,6 +37,8 @@ if "--headless" in sys.argv:
     matplotlib.use("Agg")           # no display to pop a window on
 import matplotlib.pyplot as plt
 
+from camera_utils import print_camera_list
+
 # ---------------------------------------------------------------- palette --
 PURPLE, GOLD, TEAL, GREY = "#4B2E83", "#B7A57A", "#2E7D9A", "#5F5F6E"
 BGR_PURPLE, BGR_GOLD, BGR_TEAL, BGR_GREY = (131, 46, 75), (122, 165, 183), (154, 125, 46), (110, 95, 95)
@@ -50,7 +53,8 @@ def frame_source(src, n_frames, size=(640, 480), seed=7):
     if src != "demo":
         cap = cv2.VideoCapture(int(src) if str(src).isdigit() else src)
         if not cap.isOpened():
-            raise SystemExit(f"could not open source {src!r}. Try --source demo")
+            raise SystemExit(f"could not open source {src!r}. Run --list-cameras to see "
+                              "which indices open a camera, or try --source demo")
         try:
             for _ in range(15):     # let auto-exposure/white-balance settle before
                 cap.read()          # we start recording - the first live frames off
@@ -93,11 +97,19 @@ def show(window, image, headless):
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--source", default="demo", help="camera index, video file, or 'demo'")
+    ap.add_argument("--list-cameras", action="store_true",
+                     help="print which --source index opens which camera, then exit")
+    ap.add_argument("--max-index", type=int, default=6,
+                     help="highest camera index to probe for --list-cameras")
     ap.add_argument("--frames", type=int, default=300)
     ap.add_argument("--pixel", type=int, nargs=2, default=None, help="x y (default: centre)")
     ap.add_argument("--save", default="out/demo1_pixel_noise.png")
     ap.add_argument("--headless", action="store_true")
     args = ap.parse_args()
+
+    if args.list_cameras:
+        print_camera_list(args.max_index)
+        return
 
     values, px, py = [], None, None
     for frame in frame_source(args.source, args.frames):

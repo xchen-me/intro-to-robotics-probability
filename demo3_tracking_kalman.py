@@ -34,6 +34,7 @@ OBSERVATIONS
     needs 2.45 sigma, not 2.
 
 RUN
+    python demo3_tracking_kalman.py --list-cameras
     python demo3_tracking_kalman.py --source 0 --color orange
     python demo3_tracking_kalman.py --source demo      # scripted occlusion, no camera
 """
@@ -47,6 +48,8 @@ import matplotlib
 if "--headless" in sys.argv:
     matplotlib.use("Agg")           # no display to pop a window on
 import matplotlib.pyplot as plt
+
+from camera_utils import print_camera_list
 
 PURPLE, GOLD, TEAL, GREY = "#4B2E83", "#B7A57A", "#2E7D9A", "#5F5F6E"
 BGR_PURPLE, BGR_TEAL, BGR_GREY = (131, 46, 75), (154, 125, 46), (110, 95, 95)
@@ -85,7 +88,8 @@ def synthetic_frames(n_frames, size=(640, 480), occlude=(80, 100), seed=3):
 def camera_frames(src, n_frames):
     cap = cv2.VideoCapture(int(src) if str(src).isdigit() else src)
     if not cap.isOpened():
-        raise SystemExit(f"could not open source {src!r}. Try --source demo")
+        raise SystemExit(f"could not open source {src!r}. Run --list-cameras to see "
+                          "which indices open a camera, or try --source demo")
     try:
         for _ in range(15):     # let auto-exposure/white-balance settle before we
             cap.read()          # start - also gives you time to get the object in frame
@@ -145,6 +149,10 @@ def ellipse_axes(cov2):
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--source", default="demo")
+    ap.add_argument("--list-cameras", action="store_true",
+                     help="print which --source index opens which camera, then exit")
+    ap.add_argument("--max-index", type=int, default=6,
+                     help="highest camera index to probe for --list-cameras")
     ap.add_argument("--color", default="orange", choices=sorted(HSV_RANGES))
     ap.add_argument("--frames", type=int, default=200)
     ap.add_argument("--meas-sd", type=float, default=3.0, help="assumed detection sd, px")
@@ -152,6 +160,10 @@ def main():
     ap.add_argument("--save", default="out/demo3_tracking_kalman.png")
     ap.add_argument("--headless", action="store_true")
     args = ap.parse_args()
+
+    if args.list_cameras:
+        print_camera_list(args.max_index)
+        return
 
     stream = (synthetic_frames(args.frames) if args.source == "demo"
               else camera_frames(args.source, args.frames))
