@@ -2,7 +2,7 @@
 
 **Author: Xu Chen**
 
-A 60-minute introductory lab using Python 3.12, OpenCV and Ultralytics YOLO on macOS, Windows and Linux. Detect faces in a live webcam feed, draw boxes and confidence scores, and quit with **q**. No identity recognition or video recording is implemented.
+A short introductory lab using Python 3.12, OpenCV and Ultralytics YOLO on macOS, Windows and Linux. Detect faces in a live webcam feed, draw boxes and confidence scores, and quit with **q**. No identity recognition or video recording is implemented.
 
 ## 1. Get the project
 
