@@ -1,5 +1,7 @@
 """Demo 2 - Averaging frames: where 1/sqrt(n) comes from, and where it stops.
 
+Author: Xu Chen
+
 WHAT TO SET UP
     Same as demo 1: camera still, scene static. We now average frames together.
 

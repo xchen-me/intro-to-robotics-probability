@@ -1,5 +1,7 @@
 """Demo 4 - Every pixel has its own Gaussian: background modelling as probability.
 
+Author: Xu Chen
+
 WHAT TO SET UP
     Camera still, scene empty, for the first few seconds - that is the training
     phase. Then walk into frame, or wave a hand through it.

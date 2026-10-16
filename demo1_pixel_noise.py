@@ -1,5 +1,7 @@
 """Demo 1 - Your camera is the noisy sensor. One pixel, many frames.
 
+Author: Xu Chen
+
 WHAT TO SET UP
     Point the webcam at anything that does not move - a wall, a book, the
     ceiling. Hold the camera still (or tape it down). Nothing in the scene

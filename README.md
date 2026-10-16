@@ -1,7 +1,7 @@
 # Intro to Robotics: Probability — Demos and Companion Code
 
-This repo has two things from the *Foundations of Probability and Estimation*
-lecture, and neither needs the lecture slides to run:
+This repo has three things from the *Foundations of Probability and
+Estimation* lecture, and none of them need the lecture slides to run:
 
 - **Camera demos** (`demo1`–`demo4`, root of this repo) — four live demos that
   make core probability and estimation ideas visible on a webcam feed: pixel
@@ -14,9 +14,15 @@ lecture, and neither needs the lecture slides to run:
   wall-sensor demo with an adjustable noise level, and the CLT on a bimodal
   mixture. Same idea — no slides needed, just Python (or MATLAB for one of
   them).
+- **YOLO face detection demo** ([`yolo-face-demo/`](yolo-face-demo)) — a
+  60-minute lab that draws face boxes and confidence scores on a live
+  webcam feed with a pretrained YOLO checkpoint, and doubles as a worked
+  example of a detector's confidence threshold as a probability knob.
 
-Pick whichever one you're here for. They don't depend on each other, and the
-Python setup below (Section 1) covers both.
+Pick whichever one you're here for. They don't depend on each other. Section 1
+below gets Python ready for the camera demos and the L1 companion code;
+`yolo-face-demo/` needs heavier, separate dependencies (PyTorch, Ultralytics)
+and has its own setup instructions in its [README](yolo-face-demo/README.md).
 
 ## What's here
 
@@ -38,6 +44,14 @@ Python setup below (Section 1) covers both.
 | `summed_disturbances_demo.py` | The CLT showing up again on a bimodal mixture, not just a uniform distribution. |
 
 See [`l1-lecture-code/README.txt`](l1-lecture-code/README.txt) for exact run commands and expected output; Section 1 below gets Python ready for both halves of the repo.
+
+**YOLO face detection demo** ([`yolo-face-demo/`](yolo-face-demo)) — needs a webcam:
+
+| Script | What it shows |
+|---|---|
+| `yolo_face_demo.py --source 0` | Live face boxes and confidence scores from a pretrained YOLO checkpoint; `--conf` sets the detection threshold. |
+
+See [`yolo-face-demo/README.md`](yolo-face-demo/README.md) for its own Python setup (it needs PyTorch and Ultralytics, not just `requirements.txt` at the repo root) and model provenance/license details.
 
 ## 1. Set up Python
 

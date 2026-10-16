@@ -1,5 +1,7 @@
 """Demo 3 - Track a coloured object: measurement, prediction, and the growing ellipse.
 
+Author: Xu Chen
+
 WHAT TO SET UP
     Hold up something brightly coloured - a tangerine, a red marker cap, a
     sticky note - and move it around in front of the camera. Default threshold

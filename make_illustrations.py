@@ -1,5 +1,7 @@
 """Conceptual setup drawings for the four demos - schematic, not photographic.
 
+Author: Xu Chen
+
 Same purple/gold/teal/grey palette as the lecture figures in ../../support and
 as the demo scripts themselves, so the deck reads as one family of material.
 These are drawn with matplotlib (already a dependency of the demos) rather

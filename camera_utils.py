@@ -1,5 +1,7 @@
 """Shared camera-enumeration helper for the demo scripts.
 
+Author: Xu Chen
+
 OpenCV only exposes a numeric index for each camera, and that index's order
 does not always match what you'd expect - on a laptop with a built-in
 FaceTime/webcam and an external USB camera, the external one is often
