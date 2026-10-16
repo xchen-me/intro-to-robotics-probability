@@ -15,7 +15,7 @@ Estimation* lecture, and none of them need the lecture slides to run:
   mixture. Same idea — no slides needed, just Python (or MATLAB for one of
   them).
 - **YOLO face detection demo** ([`yolo-face-demo/`](yolo-face-demo)) — a
-  60-minute lab that draws face boxes and confidence scores on a live
+  separate demo that draws face boxes and confidence scores on a live
   webcam feed with a pretrained YOLO checkpoint, and doubles as a worked
   example of a detector's confidence threshold as a probability knob.
 
